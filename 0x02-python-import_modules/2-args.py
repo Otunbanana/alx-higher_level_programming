@@ -8,7 +8,6 @@ if __name__ == "__main__":
 
     if num_args == 0:
         print("0 arguments.")
-        print(".")
     else:
         print("{} argument{}:".format(num_args, 's' if num_args > 1 else ''))
 
