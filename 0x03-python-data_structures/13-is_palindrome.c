@@ -1,75 +1,69 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <stddef.h>
 #include "lists.h"
 
 /**
-* is_palindrome - checks if a singly linked list is a palindrome
-* @head: pointer to the head of the list
-* Return: 1 if palindrome, 0 otherwise
+* reverse_list - Reverses a linked list.
+* @head: Pointer to the head of the list.
+* Return: Pointer to the new head of the reversed list.
+*/
+listint_t *reverse_list(listint_t *head)
+{
+listint_t *prev = NULL, *next = NULL;
+
+while (head)
+{
+next = head->next;
+head->next = prev;
+prev = head;
+head = next;
+}
+
+return (prev);
+}
+
+/**
+* is_palindrome - Checks if a singly linked list is a palindrome.
+* @head: Pointer to the head of the list.
+* Return: 1 if palindrome, 0 otherwise.
 */
 int is_palindrome(listint_t **head)
 {
-listint_t *slow, *fast, *prev_slow, *mid_node;
-int is_palindrome = 1;
-
-if (*head == NULL || (*head)->next == NULL)
+if (!*head || !(*head)->next)
 return (1);
 
-slow = fast = *head;
+listint_t *slow = *head, *fast = *head, *prev = NULL, *mid = NULL;
+int palindrome = 1;
 
-while (fast != NULL && fast->next != NULL)
+while (fast && fast->next)
 {
+prev = slow;
+slow = slow->next;
 fast = fast->next->next;
-
-prev_slow = slow;
-
-slow = slow->next;
 }
 
-if (fast != NULL)
-{
-mid_node = slow;
-slow = slow->next;
-}
+mid = fast ? (slow = slow->next) : NULL;
+prev = reverse_list(prev);
 
-prev_slow->next = NULL;
-prev_slow = NULL;
-while (slow != NULL)
+while (*head && prev)
 {
-fast = slow->next;
-slow->next = prev_slow;
-prev_slow = slow;
-slow = fast;
-}
-
-while (*head != NULL && prev_slow != NULL)
+if ((*head)->n != prev->n)
 {
-if ((*head)->n != prev_slow->n)
-{
-is_palindrome = 0;
+palindrome = 0;
 break;
 }
-
 *head = (*head)->next;
-prev_slow = prev_slow->next;
+prev = prev->next;
 }
 
-slow = NULL;
-while (prev_slow != NULL)
+*head = reverse_list(prev);
+
+if (mid)
 {
-fast = prev_slow->next;
-prev_slow->next = slow;
-slow = prev_slow;
-prev_slow = fast;
+prev = *head;
+*head = (*head)->next;
+prev->next = mid;
+mid->next = *head;
 }
 
-if (mid_node != NULL)
-{
-prev_slow = slow;
-slow = slow->next;
-prev_slow->next = mid_node;
-mid_node->next = slow;
-}
-
-return (is_palindrome);
+return (palindrome);
 }
