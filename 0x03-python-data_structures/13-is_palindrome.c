@@ -2,68 +2,70 @@
 #include "lists.h"
 
 /**
-* reverse_list - Reverses a linked list.
-* @head: Pointer to the head of the list.
-* Return: Pointer to the new head of the reversed list.
+* reverse_listint - Reverses a singly-linked listint_t list.
+* @head: A pointer to the starting node of the list to reverse.
+*
+* Return: A pointer to the head of the reversed list.
 */
-listint_t *reverse_list(listint_t *head)
+listint_t *reverse_listint(listint_t **head)
 {
-listint_t *prev = NULL, *next = NULL;
+listint_t *node = *head, *next, *prev = NULL;
 
-while (head)
+while (node)
 {
-next = head->next;
-head->next = prev;
-prev = head;
-head = next;
+next = node->next;
+node->next = prev;
+prev = node;
+node = next;
 }
 
-return (prev);
+*head = prev;
+return (*head);
 }
 
 /**
 * is_palindrome - Checks if a singly linked list is a palindrome.
-* @head: Pointer to the head of the list.
-* Return: 1 if palindrome, 0 otherwise.
+* @head: A pointer to the head of the linked list.
+*
+* Return: If the linked list is not a palindrome - 0.
+*         If the linked list is a palindrome - 1.
 */
 int is_palindrome(listint_t **head)
 {
-if (!*head || !(*head)->next)
+listint_t *tmp, *rev, *mid;
+size_t size = 0, i;
+
+if (*head == NULL || (*head)->next == NULL)
 return (1);
 
-listint_t *slow = *head, *fast = *head, *prev = NULL, *mid = NULL;
-int palindrome = 1;
-
-while (fast && fast->next)
+tmp = *head;
+while (tmp)
 {
-prev = slow;
-slow = slow->next;
-fast = fast->next->next;
+size++;
+tmp = tmp->next;
 }
 
-mid = fast ? (slow = slow->next) : NULL;
-prev = reverse_list(prev);
+tmp = *head;
+for (i = 0; i < (size / 2) - 1; i++)
+tmp = tmp->next;
 
-while (*head && prev)
-{
-if ((*head)->n != prev->n)
-{
-palindrome = 0;
-break;
-}
-*head = (*head)->next;
-prev = prev->next;
-}
+if ((size % 2) == 0 && tmp->n != tmp->next->n)
+return (0);
 
-*head = reverse_list(prev);
+tmp = tmp->next->next;
+rev = reverse_listint(&tmp);
+mid = rev;
 
-if (mid)
+tmp = *head;
+while (rev)
 {
-prev = *head;
-*head = (*head)->next;
-prev->next = mid;
-mid->next = *head;
+if (tmp->n != rev->n)
+return (0);
+tmp = tmp->next;
+rev = rev->next;
 }
 
-return (palindrome);
+reverse_listint(&mid);
+
+return (1);
 }
