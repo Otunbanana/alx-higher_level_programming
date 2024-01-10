@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 def roman_to_int(roman_string):
     if not isinstance(roman_string, str) or not roman_string:
-        return 0
+        return (0)
     
     roman_numerals = {
         'I': 1,
@@ -24,4 +24,4 @@ def roman_to_int(roman_string):
             result -= value
         prev_value = value
 
-    return result
+    return (result)
