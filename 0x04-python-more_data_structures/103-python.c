@@ -43,7 +43,6 @@ return;
 
 printf("  size: %ld\n", Py_SIZE(p));
 printf("  trying string: %s\n", bytes->ob_sval);
-
 size = Py_SIZE(p) > 10 ? 10 : Py_SIZE(p) + 1;
 
 printf("  first %d bytes: ", size);
