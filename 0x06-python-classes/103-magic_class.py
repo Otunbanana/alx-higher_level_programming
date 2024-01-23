@@ -5,6 +5,7 @@ This module defines a MagicClass class.
 
 import math
 
+
 class MagicClass:
     """
     Class representing a magic circle.
