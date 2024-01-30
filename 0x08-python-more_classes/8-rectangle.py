@@ -136,14 +136,14 @@ class Rectangle:
     @staticmethod
     def bigger_or_equal(rect_1, rect_2):
         """
-        Static method to determine the bigger or equal rectangle based on area.
+        Static method to determine the bigger or equal rectangle.
 
         Args:
             rect_1 (Rectangle): The first rectangle.
             rect_2 (Rectangle): The second rectangle.
 
         Raises:
-            TypeError: If either rect_1 or rect_2 is not an instance of Rectangle.
+            TypeError: If rect_1 or rect_2 is not an instance of Rectangle.
 
         Returns:
             Rectangle: The bigger or equal rectangle.
@@ -160,17 +160,17 @@ class Rectangle:
 
 
 if __name__ == "__main__":
-    my_rectangle_1 = Rectangle(8, 4)
-    my_rectangle_2 = Rectangle(2, 3)
+    my_rect_1 = Rectangle(8, 4)
+    my_rect_2 = Rectangle(2, 3)
 
-    if my_rectangle_1 is Rectangle.bigger_or_equal(my_rectangle_1, my_rectangle_2):
+    if my_rect_1 is Rectangle.bigger_or_equal(my_rect_1, my_rect_2):
         print("my_rectangle_1 is bigger or equal to my_rectangle_2")
     else:
         print("my_rectangle_2 is bigger than my_rectangle_1")
 
-    my_rectangle_2.width = 10
-    my_rectangle_2.height = 5
-    if my_rectangle_1 is Rectangle.bigger_or_equal(my_rectangle_1, my_rectangle_2):
+    my_rect_2.width = 10
+    my_rect_2.height = 5
+    if my_rect_1 is Rectangle.bigger_or_equal(my_rect_1, my_rect_2):
         print("my_rectangle_1 is bigger or equal to my_rectangle_2")
     else:
         print("my_rectangle_2 is bigger than my_rectangle_1")
