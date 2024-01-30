@@ -12,7 +12,8 @@ class NQueensSolver:
 
     Attributes:
         N (int): The size of the chessboard and the number of queens.
-        solutions (list): A list to store the solutions.
+        board (list): A list of lists representing the chessboard.
+        solutions (list): A list of lists containing solutions.
     """
 
     def __init__(self, N):
@@ -23,14 +24,18 @@ class NQueensSolver:
             N (int): The size of the chessboard and the number of queens.
         """
         self.N = N
+        self.board = self.init_board()
         self.solutions = []
 
-    def is_safe(self, board, row, col):
+    def init_board(self):
+        """Initialize an `N`x`N` sized chessboard with empty spots."""
+        return [[' ' for _ in range(self.N)] for _ in range(self.N)]
+
+    def is_safe(self, row, col):
         """
         Check if it's safe to place a queen in the specified position.
 
         Args:
-            board (list): Current state of the chessboard.
             row (int): Row to check.
             col (int): Column to check.
 
@@ -38,32 +43,68 @@ class NQueensSolver:
             bool: True if it's safe, False otherwise.
         """
         for i in range(col):
-            if board[i] == row or \
-               board[i] - i == row - col or \
-               board[i] + i == row + col:
+            if self.board[i] == row or \
+               self.board[i] - i == row - col or \
+               self.board[i] + i == row + col:
                 return False
         return True
 
-    def solve_nqueens_util(self, board, col):
+    def x_out(self, row, col):
+        """X out spots on the chessboard."""
+        for c in range(col + 1, self.N):
+            self.board[row][c] = 'x'
+        for c in range(col - 1, -1, -1):
+            self.board[row][c] = 'x'
+        for r in range(row + 1, self.N):
+            self.board[r][col] = 'x'
+        for r in range(row - 1, -1, -1):
+            self.board[r][col] = 'x'
+        c = col + 1
+        for r in range(row + 1, self.N):
+            if c >= self.N:
+                break
+            self.board[r][c] = 'x'
+            c += 1
+        c = col - 1
+        for r in range(row - 1, -1, -1):
+            if c < 0:
+                break
+            self.board[r][c] = 'x'
+            c -= 1
+        c = col + 1
+        for r in range(row - 1, -1, -1):
+            if c >= self.N:
+                break
+            self.board[r][c] = 'x'
+            c += 1
+        c = col - 1
+        for r in range(row + 1, self.N):
+            if c < 0:
+                break
+            self.board[r][c] = 'x'
+            c -= 1
+
+    def solve_nqueens_util(self, col):
         """
         Utility function to solve the N-Queens problem.
 
         Args:
-            board (list): Current state of the chessboard.
             col (int): Current column.
 
         Returns:
             None
         """
         if col == self.N:
-            self.solutions.append(list(enumerate(board)))
+            self.solutions.append([row[:] for row in self.board])
             return
 
         for row in range(self.N):
-            if self.is_safe(board, row, col):
-                board[col] = row
-                self.solve_nqueens_util(board, col + 1)
-                board[col] = -1
+            if self.board[row][col] == ' ' and self.is_safe(row, col):
+                self.board[row][col] = 'Q'
+                self.x_out(row, col)
+                self.solve_nqueens_util(col + 1)
+                self.board[row][col] = ' '
+                # Note: No need to undo x_out since we are backtracking
 
     def solve_nqueens(self):
         """
@@ -72,8 +113,7 @@ class NQueensSolver:
         Returns:
             None
         """
-        board = [-1] * self.N
-        self.solve_nqueens_util(board, 0)
+        self.solve_nqueens_util(0)
 
     def print_solutions(self):
         """
