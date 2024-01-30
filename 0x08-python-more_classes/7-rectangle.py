@@ -7,7 +7,7 @@ Module for the Rectangle class.
 class Rectangle:
     """
     Defines a rectangle with private attributes width and height.
-    
+
     Attributes:
         number_of_instances (int): The number of Rectangle instances.
         print_symbol (any): The symbol used for string representation.
