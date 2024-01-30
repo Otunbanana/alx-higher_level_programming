@@ -1,52 +1,89 @@
 #!/usr/bin/python3
+"""
+Module to solve the N-Queens problem and print solutions.
+"""
+
 import sys
 
 
-def is_safe(board, row, col, N):
-    for i in range(col):
-        if board[row][i] == 1:
-            return False
+class NQueensSolver:
+    """
+    Class to solve the N-Queens problem and print solutions.
 
-    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
-        if board[i][j] == 1:
-            return False
+    Attributes:
+        N (int): The size of the chessboard and the number of queens.
+        solutions (list): A list to store the solutions.
+    """
 
-    for i, j in zip(range(row, N, 1), range(col, -1, -1)):
-        if board[i][j] == 1:
-            return False
+    def __init__(self, N):
+        """
+        Initialize an instance of NQueensSolver.
 
-    return True
+        Args:
+            N (int): The size of the chessboard and the number of queens.
+        """
+        self.N = N
+        self.solutions = []
 
-def solve_nqueens_util(board, col, N, solutions):
-    if col == N:
-        solutions.append([row_col for row_col in enumerate(board[col])
-                          if row_col[1] == 1])
-        return
+    def is_safe(self, board, row, col):
+        """
+        Check if it's safe to place a queen in the specified position.
 
-    for i in range(N):
-        if is_safe(board, i, col, N):
-            board[i][col] = 1
-            solve_nqueens_util(board, col + 1, N, solutions)
-            board[i][col] = 0
+        Args:
+            board (list): Current state of the chessboard.
+            row (int): Row to check.
+            col (int): Column to check.
 
-def print_solutions(N):
-    if not N.isdigit():
-        print("N must be a number")
-        sys.exit(1)
+        Returns:
+            bool: True if it's safe, False otherwise.
+        """
+        for i in range(col):
+            if board[i] == row or \
+               board[i] - i == row - col or \
+               board[i] + i == row + col:
+                return False
+        return True
 
-    N = int(N)
+    def solve_nqueens_util(self, board, col):
+        """
+        Utility function to solve the N-Queens problem.
 
-    if N < 4:
-        print("N must be at least 4")
-        sys.exit(1)
+        Args:
+            board (list): Current state of the chessboard.
+            col (int): Current column.
 
-    board = [[0] * N for _ in range(N)]
-    solutions = []
+        Returns:
+            None
+        """
+        if col == self.N:
+            self.solutions.append(list(enumerate(board)))
+            return
 
-    solve_nqueens_util(board, 0, N, solutions)
+        for row in range(self.N):
+            if self.is_safe(board, row, col):
+                board[col] = row
+                self.solve_nqueens_util(board, col + 1)
+                board[col] = -1
 
-    for solution in solutions:
-        print(solution)
+    def solve_nqueens(self):
+        """
+        Solve the N-Queens problem and store solutions in the solutions list.
+
+        Returns:
+            None
+        """
+        board = [-1] * self.N
+        self.solve_nqueens_util(board, 0)
+
+    def print_solutions(self):
+        """
+        Print all solutions to the N-Queens problem.
+
+        Returns:
+            None
+        """
+        for solution in self.solutions:
+            print(solution)
 
 
 if __name__ == "__main__":
@@ -54,4 +91,18 @@ if __name__ == "__main__":
         print("Usage: {} N".format(sys.argv[0]))
         sys.exit(1)
 
-    print_solutions(sys.argv[1])
+    N = sys.argv[1]
+
+    try:
+        N = int(N)
+    except ValueError:
+        print("N must be a number")
+        sys.exit(1)
+
+    if N < 4:
+        print("N must be at least 4")
+        sys.exit(1)
+
+    nqueens_solver = NQueensSolver(N)
+    nqueens_solver.solve_nqueens()
+    nqueens_solver.print_solutions()
