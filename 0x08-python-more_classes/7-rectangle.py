@@ -64,7 +64,6 @@ class Rectangle:
 
     def __str__(self):
         """Return the printable representation of the Rectangle.
-
         Represents the rectangle with the # character.
         """
         if self.__width == 0 or self.__height == 0:
