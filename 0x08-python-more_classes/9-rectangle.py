@@ -161,6 +161,7 @@ class Rectangle:
         """Create a new Rectangle instance with equal width and height."""
         return cls(size, size)
 
+
 if __name__ == "__main__":
     my_square = Rectangle.square(5)
     print(f"Area: {my_square.area()} - Perimeter: {my_square.perimeter()}")
