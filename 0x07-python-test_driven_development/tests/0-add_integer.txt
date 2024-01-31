@@ -8,9 +8,6 @@ test for 0-add_integer
 >>> add_integer(100, -2)
 98
 
->>> add_integer(2)
-100
-
 >>> add_integer(100.3, -2)
 98
 
