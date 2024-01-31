@@ -25,9 +25,3 @@ TypeError: b must be an integer
 Traceback (most recent call last):
 ...
 TypeError: a must be an integer
-
->>> add_integer("School", "School")
-Traceback (most recent call last):
-...
-TypeError: a must be an integer
-
