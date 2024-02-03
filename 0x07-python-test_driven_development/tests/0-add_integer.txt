@@ -28,4 +28,11 @@ test it:
     >>> add_integer(None)
     Traceback (most recent call last):
     TypeError: a must be an integer
-    
+
+    >>> add_integer("Hello", "World")
+    Traceback (most recent call last):
+    TypeError: a must be an integer
+
+    >>> add_integer(float('nan'))
+    Traceback (most recent call last):
+    ValueError: cannot convert float NaN to integer
