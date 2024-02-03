@@ -19,11 +19,11 @@ def matrix_divided(matrix, div):
     for row in matrix:
         if len(row) == 0:
             raise TypeError("matrix must be a matrix"
-                            "(list of lists) of integers/floats")
+                            " (list of lists) of integers/floats")
         for x in row:
             if type(x) is not int and type(x) is not float:
                 raise TypeError("matrix must be a matrix"
-                                "(list of lists) of integers/floats")
+                                " (list of lists) of integers/floats")
 
     row_len = [len(row) for row in matrix]
     if not all(element == row_len[0] for element in row_len):
